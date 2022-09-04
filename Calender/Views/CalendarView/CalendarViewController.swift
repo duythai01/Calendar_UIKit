@@ -48,12 +48,13 @@ class CalendarViewController: UIViewController {
             to: self.baseDate
             ) ?? self.baseDate
         }).self
-    
+//    private var selectedDateChanged: ((Bool) -> Bool)
     private var baseDate: Date {
       didSet {
         days = generateDaysInMonth(for: baseDate)
         collectionView.reloadData()
         headerView.baseDate = baseDate
+        
       }
     }
     
@@ -64,11 +65,11 @@ class CalendarViewController: UIViewController {
 
     
     let currentDate = Date()
-    init() {
+    init( ) {
 //        print(currentDate)
         
       self.baseDate = currentDate
-    
+//        self.selectedDateChanged = false
 
       super.init(nibName: nil, bundle: nil)
 
@@ -113,17 +114,23 @@ class CalendarViewController: UIViewController {
       return dateFormatter
     }()
 
+    private lazy var workDay: DateFormatter = {
+      let dateFormatter = DateFormatter()
+      dateFormatter.calendar = Calendar(identifier: .gregorian)
+      dateFormatter.setLocalizedDateFormatFromTemplate("M y")
+      return dateFormatter
+    }()
 
 }
 
 extension CalendarViewController: UICollectionViewDelegate,UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print(dateFormatter.string(from: currentDate))
-        print(type(of: days[1].date))
-        print(type(of: currentDate))
+//        print(dateFormatter.string(from: currentDate))
+//        print(type(of: days[1].date))
+//        print(type(of: currentDate))
 //        print(days.description.dataUsingEncoding(<#T##String.Encoding#>))
-        print(days.count)
         print(days)
+        print(workDay.string(from: days[1].date) )
         return days.count
     }
 
@@ -133,19 +140,22 @@ extension CalendarViewController: UICollectionViewDelegate,UICollectionViewDataS
         let day = days[indexPath.row]
 //        cell.configureDay(with: day)
         if  toDayString.string(from: currentDate) == toDayString.string(from: day.date) {
-            cell.backgroundColor = .red
+            cell.contentView.backgroundColor = .red
         }else {
-            cell.backgroundColor = .white
+            cell.contentView.backgroundColor = .white
         }
         cell.day = day
 //        cell.clipsToBounds = true
 //        cell.layer.masksToBounds = true
-        cell.layer.cornerRadius = cell.frame.size.width / 2.56
+//        cell.layer.cornerRadius = cell.frame.size.width / 2.56
 
         return cell
     }
 
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 
+      
+    }
 
 }
 
@@ -154,6 +164,11 @@ extension CalendarViewController: UICollectionViewDelegateFlowLayout {
         return CGSize(width: Int((collectionView.frame.width - 20) / 8), height: Int(collectionView.frame.height) / (numberOfWeeksInBaseDate + 2))
     }
     
+//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//        let day = days[indexPath.row]
+////        selectedDateChanged(day.date)
+//        dismiss(animated: true, completion: nil)
+//    }
     
 }
 

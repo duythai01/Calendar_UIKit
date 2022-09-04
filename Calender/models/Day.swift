@@ -13,7 +13,7 @@ struct Day {
   // 2
   let number: String
   // 3
-  let isSelected: Bool
+    let isSelected: Bool
   // 4
   let isWithinDisplayedMonth: Bool
 }

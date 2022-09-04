@@ -19,13 +19,12 @@
 		188FD6DE28AF91A000F1EEFA /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188FD6DD28AF91A000F1EEFA /* CalendarView.swift */; };
 		1890ED8928ADEFC300B59CEC /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1890ED8828ADEFC300B59CEC /* HeaderView.swift */; };
 		1890ED8B28AE313200B59CEC /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1890ED8A28AE313200B59CEC /* CalendarViewController.swift */; };
-		189E98BE28B8C4F000A3141C /* TagCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189E98BD28B8C4F000A3141C /* TagCollectionViewCell.swift */; };
+		189E2B4F28BF51C900840314 /* ApiCaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189E2B4E28BF51C900840314 /* ApiCaller.swift */; };
+		189E2B5128BF55C300840314 /* Attendance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189E2B5028BF55C300840314 /* Attendance.swift */; };
 		189E98C028B8D89000A3141C /* CalendarDateCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189E98BF28B8D89000A3141C /* CalendarDateCollectionViewCell.swift */; };
+		18A27EAA28BE6A570050D9A2 /* InfDayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A27EA928BE6A570050D9A2 /* InfDayViewController.swift */; };
+		18A27EAC28BE6F5C0050D9A2 /* InfDayCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A27EAB28BE6F5C0050D9A2 /* InfDayCollectionViewCell.swift */; };
 		18A9702B28BA4111005E7FE9 /* MonthMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A9702A28BA4111005E7FE9 /* MonthMetadata.swift */; };
-		18B511B028B52EBE00D1FE14 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B511AF28B52EBE00D1FE14 /* TestViewController.swift */; };
-		18B63D8828B624420038DFDB /* TagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B63D8728B624420038DFDB /* TagViewController.swift */; };
-		18B63D8A28B624B50038DFDB /* TagButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B63D8928B624B50038DFDB /* TagButton.swift */; };
-		18EBA08028B13687001707B1 /* TagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18EBA07F28B13687001707B1 /* TagView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,13 +41,12 @@
 		188FD6DD28AF91A000F1EEFA /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		1890ED8828ADEFC300B59CEC /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		1890ED8A28AE313200B59CEC /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
-		189E98BD28B8C4F000A3141C /* TagCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCollectionViewCell.swift; sourceTree = "<group>"; };
+		189E2B4E28BF51C900840314 /* ApiCaller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiCaller.swift; sourceTree = "<group>"; };
+		189E2B5028BF55C300840314 /* Attendance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Attendance.swift; sourceTree = "<group>"; };
 		189E98BF28B8D89000A3141C /* CalendarDateCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDateCollectionViewCell.swift; sourceTree = "<group>"; };
+		18A27EA928BE6A570050D9A2 /* InfDayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfDayViewController.swift; sourceTree = "<group>"; };
+		18A27EAB28BE6F5C0050D9A2 /* InfDayCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfDayCollectionViewCell.swift; sourceTree = "<group>"; };
 		18A9702A28BA4111005E7FE9 /* MonthMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthMetadata.swift; sourceTree = "<group>"; };
-		18B511AF28B52EBE00D1FE14 /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
-		18B63D8728B624420038DFDB /* TagViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagViewController.swift; sourceTree = "<group>"; };
-		18B63D8928B624B50038DFDB /* TagButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagButton.swift; sourceTree = "<group>"; };
-		18EBA07F28B13687001707B1 /* TagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +80,7 @@
 		188B7C1628ACB5F10049FDF4 /* Calender */ = {
 			isa = PBXGroup;
 			children = (
+				189E2B4D28BF51AA00840314 /* Manager */,
 				18EBA07C28B12C28001707B1 /* Views */,
 				188B7C3128ACECF00049FDF4 /* models */,
 				188B7C1728ACB5F10049FDF4 /* AppDelegate.swift */,
@@ -92,7 +91,6 @@
 				188B7C2528ACB5F20049FDF4 /* LaunchScreen.storyboard */,
 				188B7C2828ACB5F20049FDF4 /* Info.plist */,
 				188B7C2028ACB5F10049FDF4 /* Calender.xcdatamodeld */,
-				18B511AF28B52EBE00D1FE14 /* TestViewController.swift */,
 			);
 			path = Calender;
 			sourceTree = "<group>";
@@ -102,14 +100,32 @@
 			children = (
 				188B7C3228ACED0B0049FDF4 /* Day.swift */,
 				18A9702A28BA4111005E7FE9 /* MonthMetadata.swift */,
+				189E2B5028BF55C300840314 /* Attendance.swift */,
 			);
 			path = models;
+			sourceTree = "<group>";
+		};
+		189E2B4D28BF51AA00840314 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				189E2B4E28BF51C900840314 /* ApiCaller.swift */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
+		18A27EA628BE678D0050D9A2 /* InfDay */ = {
+			isa = PBXGroup;
+			children = (
+				18A27EA928BE6A570050D9A2 /* InfDayViewController.swift */,
+				18A27EAB28BE6F5C0050D9A2 /* InfDayCollectionViewCell.swift */,
+			);
+			path = InfDay;
 			sourceTree = "<group>";
 		};
 		18EBA07C28B12C28001707B1 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				18EBA07E28B12C55001707B1 /* TagView */,
+				18A27EA628BE678D0050D9A2 /* InfDay */,
 				18EBA07D28B12C43001707B1 /* CalendarView */,
 			);
 			path = Views;
@@ -124,17 +140,6 @@
 				189E98BF28B8D89000A3141C /* CalendarDateCollectionViewCell.swift */,
 			);
 			path = CalendarView;
-			sourceTree = "<group>";
-		};
-		18EBA07E28B12C55001707B1 /* TagView */ = {
-			isa = PBXGroup;
-			children = (
-				18EBA07F28B13687001707B1 /* TagView.swift */,
-				18B63D8728B624420038DFDB /* TagViewController.swift */,
-				18B63D8928B624B50038DFDB /* TagButton.swift */,
-				189E98BD28B8C4F000A3141C /* TagCollectionViewCell.swift */,
-			);
-			path = TagView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -214,21 +219,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				18B511B028B52EBE00D1FE14 /* TestViewController.swift in Sources */,
 				18A9702B28BA4111005E7FE9 /* MonthMetadata.swift in Sources */,
 				1890ED8B28AE313200B59CEC /* CalendarViewController.swift in Sources */,
+				18A27EAA28BE6A570050D9A2 /* InfDayViewController.swift in Sources */,
 				188B7C1C28ACB5F10049FDF4 /* MainViewController.swift in Sources */,
 				188FD6DE28AF91A000F1EEFA /* CalendarView.swift in Sources */,
-				189E98BE28B8C4F000A3141C /* TagCollectionViewCell.swift in Sources */,
 				188B7C1828ACB5F10049FDF4 /* AppDelegate.swift in Sources */,
 				188B7C1A28ACB5F10049FDF4 /* SceneDelegate.swift in Sources */,
-				18B63D8A28B624B50038DFDB /* TagButton.swift in Sources */,
-				18B63D8828B624420038DFDB /* TagViewController.swift in Sources */,
+				18A27EAC28BE6F5C0050D9A2 /* InfDayCollectionViewCell.swift in Sources */,
+				189E2B5128BF55C300840314 /* Attendance.swift in Sources */,
+				189E2B4F28BF51C900840314 /* ApiCaller.swift in Sources */,
 				188B7C3328ACED0B0049FDF4 /* Day.swift in Sources */,
 				188B7C2228ACB5F10049FDF4 /* Calender.xcdatamodeld in Sources */,
 				1890ED8928ADEFC300B59CEC /* HeaderView.swift in Sources */,
 				189E98C028B8D89000A3141C /* CalendarDateCollectionViewCell.swift in Sources */,
-				18EBA08028B13687001707B1 /* TagView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

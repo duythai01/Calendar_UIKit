@@ -71,13 +71,12 @@ class MainViewController: UIViewController {
     }()
     
     //Tag view
-    private let tagStackView: UIStackView = {
+    private let infDayStackView: UIStackView = {
         let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-//        stackView.axis = .horizontal
+//        stackView.translatesAutoresizingMaskIntoConstraints = false
+
         stackView.layer.cornerRadius = 15
-//        stackView.alignment = .bottom
-//        stackView.alignment = .fill
+//
         stackView.backgroundColor = .systemYellow
         return stackView
     }()
@@ -113,13 +112,19 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBlue
         self.autoLayoutcalendarStackView()
-        self.autotagStackView()
-        self.autonoteStackView()
+        self.autoLayoutInfDayStackView()
+//        self.autonoteStackView()
         view.addSubview(mainStackView)
-       
         applyConstraints()
-      
+//        self.getInfInDay()
+
         
+    }
+    
+    private func getInfInDay(){
+        APICaller.shared.getInfInDay(){_ in
+            
+        }
     }
 
     private func applyConstraints(){
@@ -147,14 +152,14 @@ class MainViewController: UIViewController {
         
     }
     
-    
+    var infDayView = InfDayViewController()
 
 
-    private func autotagStackView(){
+    private func autoLayoutInfDayStackView(){
         
-        mainStackView.addArrangedSubview(tagStackView)
-        tagStackView.addArrangedSubview(tagBtn)
-        tagStackView.heightAnchor.constraint(equalToConstant: 300).isActive = true
+        mainStackView.addArrangedSubview(infDayStackView)
+        infDayStackView.addArrangedSubview(infDayView.view)
+//        tagStackView.heightAnchor.constraint(equalToConstant: 300).isActive = true
 //        tagStackView.widthAnchor.constraint(equalToConstant: 150).isActive = true
         
     }
@@ -164,10 +169,6 @@ class MainViewController: UIViewController {
 //        noteStackView.heightAnchor.constraint( equalToConstant: UIScreen.main.bounds.height/2.6).isActive = true
     }
     
-//    override func viewDidLayoutSubviews() {
-//        super.viewDidLayoutSubviews()
-//        collectionView.frame = view.bounds
-//    }
 
 }
 

@@ -10,6 +10,12 @@ import UIKit
 class CalendarDateCollectionViewCell: UICollectionViewCell {
     static let identifier = "CalendarDateCollectionViewCell"
     
+    override var isSelected: Bool {
+            didSet {
+                contentView.backgroundColor = isSelected ? .blue : .white
+            }
+        }
+    
     //date
     private lazy var numberLabel: UILabel = {
       let label = UILabel()
@@ -25,7 +31,7 @@ class CalendarDateCollectionViewCell: UICollectionViewCell {
     private lazy var selectionBackgroundView: UIView = {
       let view = UIView()
       view.translatesAutoresizingMaskIntoConstraints = false
-      view.clipsToBounds = true
+//      view.clipsToBounds = true
         view.layer.masksToBounds = true
       view.backgroundColor = .systemBlue
       return view
@@ -45,7 +51,8 @@ class CalendarDateCollectionViewCell: UICollectionViewCell {
         numberLabel.text = day.number
         accessibilityLabel = accessibilityDateFormatter.string(from: day.date)
 //        updateSelectionStatus()
-          applyDefaultStyle(isWithinDisplayedMonth: day.isWithinDisplayedMonth)
+//          applyDefaultStyle(isWithinDisplayedMonth: day.isWithinDisplayedMonth)
+//          updateSelectionStatus()
       }
     }
     public func configureDay(with day: Day){
@@ -58,8 +65,9 @@ class CalendarDateCollectionViewCell: UICollectionViewCell {
 
       isAccessibilityElement = true
       accessibilityTraits = .button
-
-//      contentView.addSubview(selectionBackgroundView)
+//        contentView.backgroundColor = .blue
+        contentView.layer.cornerRadius = 12
+        //      contentView.addSubview(selectionBackgroundView)
       contentView.addSubview(numberLabel)
     }
     
@@ -67,14 +75,10 @@ class CalendarDateCollectionViewCell: UICollectionViewCell {
         super.layoutSubviews()
         numberLabel.frame = contentView.bounds
         
-        selectionBackgroundView.frame = contentView.bounds
-        
-//        selectionBackgroundView.backgroundColor = .white
-        
-        selectionBackgroundView.layer.cornerRadius = 50
+
     }
     
-   
+
     
     public func dateBackGroundView( currentDay: Bool){
         if currentDay {
@@ -92,13 +96,29 @@ class CalendarDateCollectionViewCell: UICollectionViewCell {
 }
 
 private extension CalendarDateCollectionViewCell {
-    func applyDefaultStyle(isWithinDisplayedMonth: Bool) {
-      accessibilityTraits.remove(.selected)
-      accessibilityHint = "Tap to select"
+//    func applyDefaultStyle(isWithinDisplayedMonth: Bool) {
+//      accessibilityTraits.remove(.selected)
+//      accessibilityHint = "Tap to select"
+//
+//      numberLabel.textColor = isWithinDisplayedMonth ? .label : .secondaryLabel
+//      selectionBackgroundView.isHidden = true
+//    }
+//
+//    func updateSelectionStatus() {
+//      guard let day = day else { return }
+//
+//      if day.isSelected {
+//        applySelectedStyle()
+//      } else {
+//        applyDefaultStyle(isWithinDisplayedMonth: day.isWithinDisplayedMonth)
+//      }
+//    }
+//
+//    func applySelectedStyle() {
+//      accessibilityTraits.insert(.selected)
+//      accessibilityHint = nil
+//        numberLabel.backgroundColor = .systemPurple
+//
+//    }
 
-      numberLabel.textColor = isWithinDisplayedMonth ? .label : .secondaryLabel
-      selectionBackgroundView.isHidden = true
-    }
-    
-   
 }
