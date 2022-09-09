@@ -7,6 +7,7 @@
 
 import UIKit
 
+
 class InfDayCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "InfDayCollectionViewCell"
@@ -28,6 +29,9 @@ class InfDayCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(label)
         
         
+    }
+    public func configureLabel(with lb: String){
+        label.text = lb
     }
     override func layoutSubviews() {
         super.layoutSubviews()

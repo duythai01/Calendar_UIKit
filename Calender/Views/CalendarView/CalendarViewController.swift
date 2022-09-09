@@ -20,7 +20,7 @@ class CalendarViewController: UIViewController {
         collectionView.register(CalendarDateCollectionViewCell.self, forCellWithReuseIdentifier: CalendarDateCollectionViewCell.identifier)
       return collectionView
     }()
-    
+//    private var test = 2
     private let calendar = Calendar(identifier: .gregorian)
  
     private lazy var dateFormatter: DateFormatter = {
@@ -38,15 +38,15 @@ class CalendarViewController: UIViewController {
           value: -1,
           to: self.baseDate
           ) ?? self.baseDate
+            self.fetchAPI()
         },
         didTapNextMonthCompletionHandler: { [weak self] in
           guard let self = self else { return }
-
-          self.baseDate = self.calendar.date(
-            byAdding: .month,
-            value: 1,
-            to: self.baseDate
-            ) ?? self.baseDate
+            var attendance:Attendance
+          self.baseDate = self.calendar.date( byAdding: .month, value: 1, to: self.baseDate ) ?? self.baseDate
+        
+            self.fetchAPI()
+            
         }).self
 //    private var selectedDateChanged: ((Bool) -> Bool)
     private var baseDate: Date {
@@ -54,7 +54,7 @@ class CalendarViewController: UIViewController {
         days = generateDaysInMonth(for: baseDate)
         collectionView.reloadData()
         headerView.baseDate = baseDate
-        
+          currentDate = baseDate
       }
     }
     
@@ -64,15 +64,14 @@ class CalendarViewController: UIViewController {
     }
 
     
-    let currentDate = Date()
+    var currentDate = Date()
     init( ) {
 //        print(currentDate)
         
       self.baseDate = currentDate
 //        self.selectedDateChanged = false
-
       super.init(nibName: nil, bundle: nil)
-
+        
       modalPresentationStyle = .overCurrentContext
       modalTransitionStyle = .crossDissolve
       definesPresentationContext = true
@@ -82,6 +81,32 @@ class CalendarViewController: UIViewController {
       fatalError("init(coder:) has not been implemented")
     }
     
+
+    private var Attendance:[InfAtendance] = [InfAtendance]()
+
+    private func fetchAPI() {
+        
+        APICaller.shared.getInfInDay(with: workDay.string(from: currentDate)) { [weak self] result in
+            print("vao")
+            switch result {
+                case .success(let Attendance):
+//                    print("day la attendance : \(Attendance)")
+                    self?.Attendance = Attendance.attendance
+//                    self?.test = 3
+//                    print("day la self.attendance : \(self?.Attendance)")
+                    DispatchQueue.main.async {
+                        self?.collectionView.reloadData()
+                    }
+                case .failure(let error):
+                    print(error)
+                    print("dddddd")
+
+            }
+
+            }
+    }
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemTeal
@@ -90,8 +115,10 @@ class CalendarViewController: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         headerView.baseDate = baseDate
-
-      
+        self.fetchAPI()
+ 
+       
+       
         
     }
     
@@ -120,17 +147,55 @@ class CalendarViewController: UIViewController {
       dateFormatter.setLocalizedDateFormatFromTemplate("M y")
       return dateFormatter
     }()
+    
+    var selectedIndex = Int ()
+    
+    private lazy var toDateString: DateFormatter = {
+      let dateFormatter = DateFormatter()
+      dateFormatter.calendar = Calendar(identifier: .gregorian)
+      dateFormatter.setLocalizedDateFormatFromTemplate("dd-MM-yyyy")
+      return dateFormatter
+    }()
+    
+    private func sliceDateToDay(with str:String) -> String {
+      
+        let slice = str[str.startIndex..<str.index(str.startIndex, offsetBy: 2)]
+        return String(slice)
+    }
 
 }
 
 extension CalendarViewController: UICollectionViewDelegate,UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        print(dateFormatter.string(from: currentDate))
-//        print(type(of: days[1].date))
-//        print(type(of: currentDate))
-//        print(days.description.dataUsingEncoding(<#T##String.Encoding#>))
-        print(days)
-        print(workDay.string(from: days[1].date) )
+
+//        print(Attendance.count)
+//        print(Attendance)
+//        print(toDateString.string(from: days[0].date))
+        
+        if(Attendance.isEmpty == false) {
+
+            var index:Int = 1
+            while index < 7 {
+                if (sliceDateToDay(with: toDateString.string(from: days[index].date) ) == sliceDateToDay(with: Attendance[0].date_check_in! )){
+                    break
+                }
+               index += 1
+            }
+
+            Attendance.forEach { item in
+                days[index].attendace = item
+                index += 1
+            }
+//            print(days[0])
+//            print(days[1])
+//            print(days[2])
+//            print(days[3])
+//            print(days[4])
+//            print(days[5])
+        }
+     
+//        print(sliceDateToDay(with: toDateString.string(from: days[0].date) ))
+       
         return days.count
     }
 
@@ -138,24 +203,20 @@ extension CalendarViewController: UICollectionViewDelegate,UICollectionViewDataS
         let cell = collectionView.dequeueReusableCell( withReuseIdentifier: CalendarDateCollectionViewCell.identifier,for: indexPath) as! CalendarDateCollectionViewCell
         
         let day = days[indexPath.row]
-//        cell.configureDay(with: day)
+        cell.configureDay(with: day)
         if  toDayString.string(from: currentDate) == toDayString.string(from: day.date) {
             cell.contentView.backgroundColor = .red
-        }else {
-            cell.contentView.backgroundColor = .white
         }
+
+        
         cell.day = day
-//        cell.clipsToBounds = true
-//        cell.layer.masksToBounds = true
-//        cell.layer.cornerRadius = cell.frame.size.width / 2.56
+
 
         return cell
     }
+    
+    
 
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-
-      
-    }
 
 }
 
@@ -182,15 +243,15 @@ private extension CalendarViewController {
         let firstDayOfMonth = calendar.date(
           from: calendar.dateComponents([.year, .month], from: baseDate))
         else {
-          // 3
+
           throw CalendarDataError.metadataGeneration
       }
 
-      // 4
       let firstDayWeekday = calendar.component(.weekday, from: firstDayOfMonth)
 
       // 5
       return MonthMetadata(
+ 
         numberOfDays: numberOfDaysInMonth,
         firstDay: firstDayOfMonth,
         firstDayWeekday: firstDayWeekday)
@@ -212,7 +273,8 @@ private extension CalendarViewController {
         number: dateFormatter.string(from: date),
         isSelected: false,
 //        isSelected: calendar.isDate(date, inSameDayAs: selectedDate),
-        isWithinDisplayedMonth: isWithinDisplayedMonth
+        isWithinDisplayedMonth: isWithinDisplayedMonth,
+        attendace: nil
       )
     }
     

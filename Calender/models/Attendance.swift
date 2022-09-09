@@ -7,17 +7,8 @@
 
 import Foundation
 
-struct StatusDay {
-    var dayWork: String
-    var dayOff: Bool
-    enum statusDay {
-        case dayWork
-        case dayOff
-    }
-
-}
 struct Attendance: Codable {
-    let attendance: [InfAtendance]?
+    let attendance: [InfAtendance]
     let total_work_paid: Float
     let work_month: Int
     let resource_calendar: [ResourceCalendar]

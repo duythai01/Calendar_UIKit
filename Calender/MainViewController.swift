@@ -74,7 +74,7 @@ class MainViewController: UIViewController {
     private let infDayStackView: UIStackView = {
         let stackView = UIStackView()
 //        stackView.translatesAutoresizingMaskIntoConstraints = false
-
+        stackView.distribution = .fill
         stackView.layer.cornerRadius = 15
 //
         stackView.backgroundColor = .systemYellow
@@ -117,15 +117,26 @@ class MainViewController: UIViewController {
         view.addSubview(mainStackView)
         applyConstraints()
 //        self.getInfInDay()
-
         
     }
-    
-    private func getInfInDay(){
-        APICaller.shared.getInfInDay(){_ in
-            
-        }
-    }
+   
+//    private func getInfInDay(){
+//        APICaller.shared.getInfInDay() { [weak self] result in
+//
+//            switch result {
+//                case .success(let Attendance):
+//                    self?.Attendance = Attendance
+////                    DispatchQueue.main.async {
+////                        self?.collectionView.reloadData()
+////                    }
+//                case .failure(let error):
+//                    print(error)
+//                    print("dddddd")
+//
+//            }
+//
+//            }
+//    }
 
     private func applyConstraints(){
         let mainStackViewConstraints = [

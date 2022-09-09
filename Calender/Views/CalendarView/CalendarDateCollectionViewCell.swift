@@ -7,15 +7,54 @@
 
 import UIKit
 
+protocol CalendarDateCollectionViewCellDelegate {
+
+       func getInf(with data: InfAtendance)
+   }
+
 class CalendarDateCollectionViewCell: UICollectionViewCell {
     static let identifier = "CalendarDateCollectionViewCell"
     
+    var delegate: CalendarDateCollectionViewCellDelegate?
+    private lazy var toDayString: DateFormatter = {
+      let dateFormatter = DateFormatter()
+      dateFormatter.calendar = Calendar(identifier: .gregorian)
+      dateFormatter.setLocalizedDateFormatFromTemplate("dd-MM-yyyy")
+      return dateFormatter
+    }()
+    var currentDate = Date()
+    private lazy var infDay = InfDayViewController()
+//    var infDay: InfAtendance?
+//    public func getInfDay(with infDay: InfAtendance){
+//        self.infDay = infDay
+//    }
+
+//    private var xxx = InfDayViewController()
     override var isSelected: Bool {
             didSet {
-                contentView.backgroundColor = isSelected ? .blue : .white
+//                print("day la hien tai")
+//                print(toDayString.string(from: currentDate))
+//                print("day la click")
+//                print(toDayString.string(from: day!.date))
+//                NotificationCenter.default.post(name: Notification.Name("reloadCollectionView"), object: nil)
+                
+                if(isSelected){
+                    print(day?.number)
+                    infDay.configInfDay = day?.attendace
+                    if(contentView.backgroundColor ==  .red){
+                        contentView.backgroundColor =  .blue
+                    } else {
+                        contentView.backgroundColor =  .blue
+                    }
+                        
+                   
+                }else {
+                        contentView.backgroundColor =  .white
+                }
             }
+        
         }
-    
+
     //date
     private lazy var numberLabel: UILabel = {
       let label = UILabel()
@@ -51,7 +90,8 @@ class CalendarDateCollectionViewCell: UICollectionViewCell {
         numberLabel.text = day.number
         accessibilityLabel = accessibilityDateFormatter.string(from: day.date)
 //        updateSelectionStatus()
-//          applyDefaultStyle(isWithinDisplayedMonth: day.isWithinDisplayedMonth)
+          applyDefaultStyle(isWithinDisplayedMonth: day.isWithinDisplayedMonth)
+
 //          updateSelectionStatus()
       }
     }
@@ -65,10 +105,11 @@ class CalendarDateCollectionViewCell: UICollectionViewCell {
 
       isAccessibilityElement = true
       accessibilityTraits = .button
-//        contentView.backgroundColor = .blue
+        contentView.backgroundColor = .white
         contentView.layer.cornerRadius = 12
         //      contentView.addSubview(selectionBackgroundView)
       contentView.addSubview(numberLabel)
+       
     }
     
     override func layoutSubviews() {
@@ -96,13 +137,13 @@ class CalendarDateCollectionViewCell: UICollectionViewCell {
 }
 
 private extension CalendarDateCollectionViewCell {
-//    func applyDefaultStyle(isWithinDisplayedMonth: Bool) {
-//      accessibilityTraits.remove(.selected)
-//      accessibilityHint = "Tap to select"
-//
-//      numberLabel.textColor = isWithinDisplayedMonth ? .label : .secondaryLabel
-//      selectionBackgroundView.isHidden = true
-//    }
+    func applyDefaultStyle(isWithinDisplayedMonth: Bool) {
+      accessibilityTraits.remove(.selected)
+      accessibilityHint = "Tap to select"
+
+      numberLabel.textColor = isWithinDisplayedMonth ? .label : .secondaryLabel
+      selectionBackgroundView.isHidden = true
+    }
 //
 //    func updateSelectionStatus() {
 //      guard let day = day else { return }
