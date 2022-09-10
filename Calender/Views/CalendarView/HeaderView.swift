@@ -16,6 +16,7 @@ class HeaderView: UIView {
         label.text = "Month"
         label.accessibilityTraits = .header
         label.isAccessibilityElement = true
+        label.textColor = UIColor(#colorLiteral(red: 0.8882840276, green: 0.4336869717, blue: 0.2047311664, alpha: 1))
        return label
     }()
     
@@ -52,7 +53,7 @@ class HeaderView: UIView {
           button.setTitle("Previous", for: .normal)
       }
 
-      button.titleLabel?.textColor = .label
+      button.titleLabel?.textColor = UIColor(#colorLiteral(red: 0.8882840276, green: 0.4336869717, blue: 0.2047311664, alpha: 1))
 
       button.addTarget(self, action: #selector(didTapPreviousMonthButton), for: .touchUpInside)
       return button
@@ -77,7 +78,7 @@ class HeaderView: UIView {
         button.setTitle("Next", for: .normal)
       }
 
-      button.titleLabel?.textColor = .label
+      button.titleLabel?.textColor = UIColor(#colorLiteral(red: 0.8882840276, green: 0.4336869717, blue: 0.2047311664, alpha: 1))
 
       button.addTarget(self, action: #selector(didTapNextMonthButton), for: .touchUpInside)
       return button
@@ -112,7 +113,7 @@ class HeaderView: UIView {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
-        stackView.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width - 20).isActive = true
+        stackView.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width).isActive = true
         stackView.heightAnchor.constraint(equalToConstant:  (UIScreen.main.bounds.height/2.8)*0.18).isActive = true
         stackView.alignment = .fill
 
@@ -121,12 +122,20 @@ class HeaderView: UIView {
         return stackView
     }()
     
+    private let spacingLeadingView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+
+        stackView.widthAnchor.constraint(equalToConstant: 1).isActive = true
+        return stackView
+    }()
+    
     private lazy var TopOfHeaderStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
         stackView.alignment = .center
-        stackView.distribution = .equalSpacing
+        stackView.distribution = .equalCentering
         return stackView
     }()
     
@@ -145,8 +154,8 @@ class HeaderView: UIView {
 
         for dayNumber in 1 ... 7 {
             let dayLabel = UILabel()
-            dayLabel.font = .systemFont(ofSize: 12, weight: .bold)
-            dayLabel.textColor = .secondaryLabel
+            dayLabel.font = .systemFont(ofSize: 12, weight: .heavy)
+            dayLabel.textColor = UIColor(#colorLiteral(red: 0.8882840276, green: 0.4336869717, blue: 0.2047311664, alpha: 1))
             dayLabel.textAlignment = .center
             dayLabel.text = dayOfWeekLetter(for: dayNumber)
             
@@ -185,7 +194,10 @@ class HeaderView: UIView {
     }
     
     private func autoLayoutTopOfHeadStackView(){
+       
         HeaderStackView.addArrangedSubview(TopOfHeaderStackView)
+        
+//        TopOfHeaderStackView.addArrangedSubview(spacingLeadingView)
         TopOfHeaderStackView.addArrangedSubview(previousMonthButton)
         TopOfHeaderStackView.addArrangedSubview(monthLabel)
         TopOfHeaderStackView.addArrangedSubview(nextMonthButton)

@@ -7,15 +7,12 @@
 
 import UIKit
 
-protocol CalendarDateCollectionViewCellDelegate {
 
-       func getInf(with data: InfAtendance)
-   }
 
 class CalendarDateCollectionViewCell: UICollectionViewCell {
     static let identifier = "CalendarDateCollectionViewCell"
     
-    var delegate: CalendarDateCollectionViewCellDelegate?
+ 
     private lazy var toDayString: DateFormatter = {
       let dateFormatter = DateFormatter()
       dateFormatter.calendar = Calendar(identifier: .gregorian)
@@ -24,32 +21,34 @@ class CalendarDateCollectionViewCell: UICollectionViewCell {
     }()
     var currentDate = Date()
     private lazy var infDay = InfDayViewController()
-//    var infDay: InfAtendance?
+    var dataInf: InfAtendance = InfAtendance(date_check_in: "no data", late_check_in: 0, early_check_out: 0, total_work_paid: 0.0)
 //    public func getInfDay(with infDay: InfAtendance){
 //        self.infDay = infDay
 //    }
 
-//    private var xxx = InfDayViewController()
+   
     override var isSelected: Bool {
             didSet {
-//                print("day la hien tai")
-//                print(toDayString.string(from: currentDate))
-//                print("day la click")
-//                print(toDayString.string(from: day!.date))
-//                NotificationCenter.default.post(name: Notification.Name("reloadCollectionView"), object: nil)
+
                 
                 if(isSelected){
                     print(day?.number)
-                    infDay.configInfDay = day?.attendace
-                    if(contentView.backgroundColor ==  .red){
-                        contentView.backgroundColor =  .blue
-                    } else {
-                        contentView.backgroundColor =  .blue
-                    }
-                        
+//                    xxx.configInfDay = day?.attendace
+                    let notification = Notification(name: .getInfData, object: day?.attendace, userInfo: nil )
+                    NotificationCenter.default.post(notification)
+
+
+//                    if(contentView.backgroundColor ==  .red){
+//                        contentView.backgroundColor =  .red
+//                    } else {
+//                        contentView.backgroundColor =  .white
+//                    }
+                    contentView.layer.borderColor = UIColor(#colorLiteral(red: 0.8882840276, green: 0.4336869717, blue: 0.2047311664, alpha: 1)).cgColor
+
                    
                 }else {
-                        contentView.backgroundColor =  .white
+//                        contentView.backgroundColor =  .white
+                    contentView.layer.borderColor = UIColor(#colorLiteral(red: 0.1715714931, green: 0.1356520951, blue: 0.2563252747, alpha: 1)).cgColor
                 }
             }
         
@@ -106,9 +105,12 @@ class CalendarDateCollectionViewCell: UICollectionViewCell {
       isAccessibilityElement = true
       accessibilityTraits = .button
         contentView.backgroundColor = .white
+        contentView.layer.borderWidth = 3
+        contentView.layer.borderColor = UIColor(#colorLiteral(red: 0.1715714931, green: 0.1356520951, blue: 0.2563252747, alpha: 1)).cgColor
         contentView.layer.cornerRadius = 12
         //      contentView.addSubview(selectionBackgroundView)
       contentView.addSubview(numberLabel)
+    
        
     }
     
@@ -162,4 +164,10 @@ private extension CalendarDateCollectionViewCell {
 //
 //    }
 
+}
+
+
+extension Notification.Name {
+    static let getInfData = Notification.Name("getInfData")
+  
 }

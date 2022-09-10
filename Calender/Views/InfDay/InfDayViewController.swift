@@ -10,12 +10,6 @@ import UIKit
 
 class InfDayViewController: UIViewController {
     
-    private let infDayStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.distribution = .fill
-        stackView.backgroundColor = .blue
-        return stackView
-    }()
     
     private let collectionView: UICollectionView = {
       let layout = UICollectionViewFlowLayout()
@@ -25,18 +19,14 @@ class InfDayViewController: UIViewController {
       let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
 
         collectionView.register(InfDayCollectionViewCell.self, forCellWithReuseIdentifier: InfDayCollectionViewCell.identifier)
+        collectionView.layer.cornerRadius = 20
+
       return collectionView
     }()
     
     var infDaySelected:InfAtendance?
-//    public func configInfDaySelected(with inf: InfAtendance){
-//        self.infDaySelected = inf
-//        DispatchQueue.main.async {[weak self] in
-//            self?.collectionView.reloadData()
-//        }
-//
-//
-//    }
+    
+    
     var configInfDay: InfAtendance? {
         didSet{
             guard let inf = configInfDay else {return}
@@ -49,34 +39,27 @@ class InfDayViewController: UIViewController {
         }
     }
     
-//    private func getInf(){
-//        self.infDaySelected = inf
-//                DispatchQueue.main.async {
-//                    self.collectionView.reloadData()
-//                }
-//    }
-    
-    
 
+
+
+   
     override func viewDidLoad() {
         super.viewDidLoad()
 
         view.addSubview(collectionView)
-        collectionView.backgroundColor = .opaqueSeparator
+        collectionView.backgroundColor = .systemBackground
                 collectionView.delegate = self
         collectionView.dataSource = self
-//        NotificationCenter.default.addObserver(self, selector: #selector(
-//        self.reloadCollectionview(notification:)), name: Notification.Name("reloadCollectionView"),
-//        object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handlegetInfData(notification:)), name: .getInfData, object: nil)
+
     }
     
-//    @objc func reloadCollectionview(notification: Notification) {
-//
-//
-//     self.collectionView.reloadData()
-//
-//    /// Table is IBoutlet name of your tableview
-//    }
+    @objc func handlegetInfData(notification: Notification) {
+        if let inf = notification.object as? InfAtendance {
+            self.infDaySelected = inf
+            collectionView.reloadData()
+        }
+    }
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         collectionView.frame = view.bounds
@@ -88,27 +71,31 @@ class InfDayViewController: UIViewController {
 extension InfDayViewController: UICollectionViewDelegate,UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         print("hehe")
-
+        print(infDaySelected)
         return 4
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell( withReuseIdentifier: InfDayCollectionViewCell.identifier,for: indexPath) as! InfDayCollectionViewCell
         if(infDaySelected != nil){
+            
             switch indexPath.row{
                 case 0:
-                    cell.configureLabel(with: (infDaySelected?.date_check_in)!)
+                    cell.configureLabel(with: "Ngày check in: \((infDaySelected?.date_check_in)!)")
                 case 1:
-                    cell.configureLabel(with: String((infDaySelected?.early_check_out)!))
+                    cell.configureLabel(with: "Vào sớm: \(String((infDaySelected?.early_check_out)!))")
                 case 2:
-                    cell.configureLabel(with: String((infDaySelected?.late_check_in)!))
+                    cell.configureLabel(with: "Vào muộn: \(String((infDaySelected?.late_check_in)!))")
                 case 3:
-                    cell.configureLabel(with: String((infDaySelected?.total_work_paid)!))
+                    cell.configureLabel(with: "Công: \(String((infDaySelected?.total_work_paid)!))")
                 default:
                     print("loi")
             }
         
         }
+        cell.layer.borderWidth = 1
+        cell.layer.borderColor = UIColor.black.cgColor
+
 
         cell.backgroundColor = .white
         cell.layer.cornerRadius = 30
@@ -129,14 +116,4 @@ extension InfDayViewController: UICollectionViewDelegateFlowLayout {
     
 }
 
-extension InfDayViewController: CalendarDateCollectionViewCellDelegate{
-    func getInf(with data: InfAtendance) {
-        self.infDaySelected = data
-        DispatchQueue.main.async { [weak self] in
-            self?.collectionView.reloadData()
-        }
-        
-    }
-    
-    
-}
+

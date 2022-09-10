@@ -22,7 +22,7 @@ class MainViewController: UIViewController {
         stackView.distribution = .fill
      
 //        stackView.spacing = 10
-        stackView.backgroundColor = .black
+        stackView.backgroundColor = UIColor(#colorLiteral(red: 0.1715714931, green: 0.1356520951, blue: 0.2563252747, alpha: 1))
         return stackView
     }()
     private lazy var calendarViewController = CalendarViewController()
@@ -37,10 +37,10 @@ class MainViewController: UIViewController {
         stackView.heightAnchor.constraint(equalToConstant:  UIScreen.main.bounds.height/2.8).isActive = true
         stackView.axis = .vertical
         stackView.layer.cornerRadius = 15
-//        stackView.alignment = .fill
+
         stackView.distribution = .fill
         stackView.spacing = 5
-        stackView.backgroundColor = .systemGreen
+        stackView.backgroundColor = UIColor(#colorLiteral(red: 0.1715714931, green: 0.1356520951, blue: 0.2563252747, alpha: 1))
         return stackView
     }()
     
@@ -48,17 +48,14 @@ class MainViewController: UIViewController {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.heightAnchor.constraint(equalToConstant:  (UIScreen.main.bounds.height/2.8) * 0.2).isActive = true
-//        stackView.alignment = .fill
-//        stackView.distribution = .fill
+
         return stackView
     }()
     
     private let bodyCalendarStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
-//        stackView.layer.cornerRadius = 15
-//        stackView.alignment = .fill
-//        stackView.distribution = .fill
+
         return stackView
     }()
     
@@ -70,80 +67,35 @@ class MainViewController: UIViewController {
         return stackView
     }()
     
-    //Tag view
+
     private let infDayStackView: UIStackView = {
         let stackView = UIStackView()
-//        stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.distribution = .fill
         stackView.layer.cornerRadius = 15
-//
-        stackView.backgroundColor = .systemYellow
         return stackView
     }()
 
-    
-   // itemTagView
-    private let tagBtn: UIButton = {
-        let btn = UIButton()
-        btn.setTitle("do something", for: .normal)
-        btn.setTitleColor(UIColor.black, for: .normal)
-        btn.setImage(UIImage(systemName: "delete.left"), for: .normal)
-        btn.semanticContentAttribute = .forceRightToLeft
-        btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.backgroundColor = .white
-        btn.layer.cornerRadius = 15
-         return btn
-        
-    }()
-    
-    
-    //Note view
-    private let noteStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.layer.cornerRadius = 15
-        stackView.backgroundColor = .systemGray
-        return stackView
-    }()
-    
+
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBlue
+        view.backgroundColor = UIColor(#colorLiteral(red: 0.1715714931, green: 0.1356520951, blue: 0.2563252747, alpha: 1))
         self.autoLayoutcalendarStackView()
         self.autoLayoutInfDayStackView()
-//        self.autonoteStackView()
         view.addSubview(mainStackView)
         applyConstraints()
-//        self.getInfInDay()
+
         
     }
    
-//    private func getInfInDay(){
-//        APICaller.shared.getInfInDay() { [weak self] result in
-//
-//            switch result {
-//                case .success(let Attendance):
-//                    self?.Attendance = Attendance
-////                    DispatchQueue.main.async {
-////                        self?.collectionView.reloadData()
-////                    }
-//                case .failure(let error):
-//                    print(error)
-//                    print("dddddd")
-//
-//            }
-//
-//            }
-//    }
 
     private func applyConstraints(){
         let mainStackViewConstraints = [
-            mainStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 10),
-            mainStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
+            mainStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 0),
+            mainStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
             mainStackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 40),
-            mainStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor,constant: -12)
+            mainStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor,constant: 0)
         
         ]
       
@@ -158,7 +110,6 @@ class MainViewController: UIViewController {
         calendarStackView.addArrangedSubview(bodyCalendarStackView)
         calendarStackView.addArrangedSubview(spaceStackView)
 
-//        bodyCalendarStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 10).isActive = true
         mainStackView.addArrangedSubview(calendarStackView)
         
     }
@@ -170,17 +121,11 @@ class MainViewController: UIViewController {
         
         mainStackView.addArrangedSubview(infDayStackView)
         infDayStackView.addArrangedSubview(infDayView.view)
-//        tagStackView.heightAnchor.constraint(equalToConstant: 300).isActive = true
-//        tagStackView.widthAnchor.constraint(equalToConstant: 150).isActive = true
+
         
     }
     
-    private func autonoteStackView(){
-        mainStackView.addArrangedSubview(noteStackView)
-//        noteStackView.heightAnchor.constraint( equalToConstant: UIScreen.main.bounds.height/2.6).isActive = true
-    }
-    
-
+ 
 }
 
 

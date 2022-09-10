@@ -7,6 +7,7 @@
 
 import UIKit
 
+
 class CalendarViewController: UIViewController {
 
     private let collectionView: UICollectionView = {
@@ -22,6 +23,7 @@ class CalendarViewController: UIViewController {
     }()
 //    private var test = 2
     private let calendar = Calendar(identifier: .gregorian)
+    private let infDate = InfDayViewController()
  
     private lazy var dateFormatter: DateFormatter = {
       let dateFormatter = DateFormatter()
@@ -39,6 +41,7 @@ class CalendarViewController: UIViewController {
           to: self.baseDate
           ) ?? self.baseDate
             self.fetchAPI()
+            self.indexNowDay = 35
         },
         didTapNextMonthCompletionHandler: { [weak self] in
           guard let self = self else { return }
@@ -46,7 +49,7 @@ class CalendarViewController: UIViewController {
           self.baseDate = self.calendar.date( byAdding: .month, value: 1, to: self.baseDate ) ?? self.baseDate
         
             self.fetchAPI()
-            
+            self.indexNowDay = 0
         }).self
 //    private var selectedDateChanged: ((Bool) -> Bool)
     private var baseDate: Date {
@@ -90,10 +93,9 @@ class CalendarViewController: UIViewController {
             print("vao")
             switch result {
                 case .success(let Attendance):
-//                    print("day la attendance : \(Attendance)")
+          
                     self?.Attendance = Attendance.attendance
-//                    self?.test = 3
-//                    print("day la self.attendance : \(self?.Attendance)")
+
                     DispatchQueue.main.async {
                         self?.collectionView.reloadData()
                     }
@@ -109,8 +111,8 @@ class CalendarViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemTeal
-        collectionView.backgroundColor = .systemGreen
+
+        collectionView.backgroundColor = UIColor(#colorLiteral(red: 0.1715714931, green: 0.1356520951, blue: 0.2563252747, alpha: 1))
         view.addSubview(collectionView)
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -162,39 +164,37 @@ class CalendarViewController: UIViewController {
         let slice = str[str.startIndex..<str.index(str.startIndex, offsetBy: 2)]
         return String(slice)
     }
+    private let nowDay = Date()
+    private var indexNowDay:Int = 35
 
 }
 
 extension CalendarViewController: UICollectionViewDelegate,UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 
-//        print(Attendance.count)
-//        print(Attendance)
-//        print(toDateString.string(from: days[0].date))
         
         if(Attendance.isEmpty == false) {
-
-            var index:Int = 1
-            while index < 7 {
-                if (sliceDateToDay(with: toDateString.string(from: days[index].date) ) == sliceDateToDay(with: Attendance[0].date_check_in! )){
-                    break
+            print(Attendance.count)
+            
+            var index:Int = 0
+            for i in 0...6{
+                if (sliceDateToDay(with: toDateString.string(from: days[i].date) ) == sliceDateToDay(with: Attendance[0].date_check_in! )){
+                    index = i
                 }
-               index += 1
             }
+            
 
+            
             Attendance.forEach { item in
-                days[index].attendace = item
+                if(index <= Attendance.count){
+                    days[index].attendace = item
+                }
+              
                 index += 1
             }
-//            print(days[0])
-//            print(days[1])
-//            print(days[2])
-//            print(days[3])
-//            print(days[4])
-//            print(days[5])
+
         }
      
-//        print(sliceDateToDay(with: toDateString.string(from: days[0].date) ))
        
         return days.count
     }
@@ -203,11 +203,27 @@ extension CalendarViewController: UICollectionViewDelegate,UICollectionViewDataS
         let cell = collectionView.dequeueReusableCell( withReuseIdentifier: CalendarDateCollectionViewCell.identifier,for: indexPath) as! CalendarDateCollectionViewCell
         
         let day = days[indexPath.row]
-        cell.configureDay(with: day)
-        if  toDayString.string(from: currentDate) == toDayString.string(from: day.date) {
+        
+        if  toDayString.string(from: self.nowDay) == toDayString.string(from: day.date) {
+            indexNowDay = indexPath.row
             cell.contentView.backgroundColor = .red
+        }else {
+            cell.contentView.backgroundColor = .white
+            if(day.attendace != nil && indexPath.row < indexNowDay){
+                let workPaid: Float = day.attendace!.total_work_paid
+                switch workPaid {
+                    case 0.5 :
+                        cell.contentView.backgroundColor = UIColor(#colorLiteral(red: 0.6072805524, green: 0.3494651914, blue: 0.7158129811, alpha: 1))
+                    case 0 :
+                        cell.contentView.backgroundColor = UIColor(#colorLiteral(red: 1, green: 0.4486335034, blue: 0.338883669, alpha: 1))
+                    case 1 :
+                        cell.contentView.backgroundColor = .green
+                    default:
+                        print("error")
+                }
+            }
         }
-
+        
         
         cell.day = day
 
@@ -215,6 +231,10 @@ extension CalendarViewController: UICollectionViewDelegate,UICollectionViewDataS
         return cell
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print(indexPath.row)
+
+    }
     
 
 
@@ -224,12 +244,7 @@ extension CalendarViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: Int((collectionView.frame.width - 20) / 8), height: Int(collectionView.frame.height) / (numberOfWeeksInBaseDate + 2))
     }
-    
-//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        let day = days[indexPath.row]
-////        selectedDateChanged(day.date)
-//        dismiss(animated: true, completion: nil)
-//    }
+
     
 }
 
