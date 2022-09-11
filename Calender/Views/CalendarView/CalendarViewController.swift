@@ -49,7 +49,7 @@ class CalendarViewController: UIViewController {
           self.baseDate = self.calendar.date( byAdding: .month, value: 1, to: self.baseDate ) ?? self.baseDate
         
             self.fetchAPI()
-            self.indexNowDay = 0
+            self.indexNowDay = 35
         }).self
 //    private var selectedDateChanged: ((Bool) -> Bool)
     private var baseDate: Date {
@@ -150,6 +150,13 @@ class CalendarViewController: UIViewController {
       return dateFormatter
     }()
     
+    private lazy var onlyMonth: DateFormatter = {
+      let dateFormatter = DateFormatter()
+      dateFormatter.calendar = Calendar(identifier: .gregorian)
+      dateFormatter.setLocalizedDateFormatFromTemplate("M")
+      return dateFormatter
+    }()
+    
     var selectedIndex = Int ()
     
     private lazy var toDateString: DateFormatter = {
@@ -172,7 +179,8 @@ class CalendarViewController: UIViewController {
 extension CalendarViewController: UICollectionViewDelegate,UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 
-        
+//        print(Int(onlyMonth.string(from: self.nowDay))! > Int(onlyMonth.string(from: days[1].date))!)
+//        print(onlyMonth.string(from: days[1].date))
         if(Attendance.isEmpty == false) {
             print(Attendance.count)
             
@@ -208,6 +216,9 @@ extension CalendarViewController: UICollectionViewDelegate,UICollectionViewDataS
             indexNowDay = indexPath.row
             cell.contentView.backgroundColor = .red
         }else {
+            if (Int(onlyMonth.string(from: self.nowDay))! < Int(onlyMonth.string(from: currentDate))!){
+                indexNowDay = 0
+            }
             cell.contentView.backgroundColor = .white
             if(day.attendace != nil && indexPath.row < indexNowDay){
                 let workPaid: Float = day.attendace!.total_work_paid
